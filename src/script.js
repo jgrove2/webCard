@@ -1,3 +1,48 @@
+// iOS Safari viewport fixes
+class ViewportManager {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Set CSS custom properties for viewport height
+    this.setViewportHeight();
+    
+    // Listen for viewport changes (iOS Safari address bar)
+    window.addEventListener('resize', () => this.setViewportHeight());
+    window.addEventListener('orientationchange', () => {
+      // Delay to ensure orientation change is complete
+      setTimeout(() => this.setViewportHeight(), 100);
+    });
+
+    // Prevent iOS zoom on double tap
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = new Date().getTime();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+
+    // Prevent iOS bounce scrolling
+    document.addEventListener('touchmove', (e) => {
+      if (e.target.closest('.container')) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  }
+
+  setViewportHeight() {
+    // Set CSS custom property for actual viewport height
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    
+    // Also set the standard viewport units as fallback
+    document.documentElement.style.setProperty('--vw', `${window.innerWidth * 0.01}px`);
+  }
+}
+
 // Theme management with smart defaults
 class ThemeManager {
   constructor() {
@@ -64,7 +109,8 @@ class ThemeManager {
   }
 }
 
-// Initialize theme manager when DOM is ready
+// Initialize managers when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
+  new ViewportManager();
   new ThemeManager();
 });

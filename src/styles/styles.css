@@ -19,33 +19,75 @@
   --link-visited: #ff6b9d;
 }
 
+/* iOS Safari viewport fixes */
 html {
   font-size: 18px;
   color: var(--text-color);
   line-height: 1.6;
+  /* Prevent iOS zoom on input focus */
+  -webkit-text-size-adjust: 100%;
+  /* Prevent iOS bounce scrolling */
+  overscroll-behavior: none;
 }
 
 * {
   margin: 0;
   padding: 0;
+  /* Prevent iOS touch callouts */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection for content */
+h1,
+p,
+span {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 body {
-  min-height: 100dvh; /* Dynamic viewport height for iOS */
-  width: 100dvw;
+  /* Use JavaScript-calculated viewport height for iOS Safari */
+  min-height: 100vh; /* Fallback */
+  min-height: calc(var(--vh, 1vh) * 100); /* JavaScript-calculated height */
+
+  width: 100vw;
+  width: 100dvw; /* Dynamic viewport width */
+
   background-color: var(--bg-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+
+  /* Prevent horizontal scrolling */
   overflow-x: hidden;
+
+  /* Prevent iOS bounce */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+
+  /* Fix iOS Safari address bar issues */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh;
+
+  /* Use JavaScript-calculated viewport height */
+  height: 100vh; /* Fallback */
+  height: calc(var(--vh, 1vh) * 100); /* JavaScript-calculated height */
   width: 100%;
+
   margin: 0;
   padding: 0;
+
+  /* Ensure proper positioning */
+  position: relative;
 }
 
 .card {

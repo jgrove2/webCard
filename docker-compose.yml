@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v2.10
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - web
+
+  webcard:
+    build: .
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.webcard.rule=Host(`localhost`)"
+      - "traefik.http.routers.webcard.entrypoints=web"
+      - "traefik.http.services.webcard.loadbalancer.server.port=80"
+    networks:
+      - web
+
+networks:
+  web:
+    external: false

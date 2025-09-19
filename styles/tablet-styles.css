@@ -1,0 +1,12 @@
+@media (min-width: 768px) {
+  .card {
+    width: 35rem !important;
+    height: 25rem !important;
+  }
+  .name {
+    font-size: 1.5rem !important;
+  }
+  .icon-link-row {
+    font-size: 2rem !important;
+  }
+}

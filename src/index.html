@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Justin Grove</title>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.7/dist/htmx.min.js"></script>
     <link rel="stylesheet" href="./styles/styles.css" />
   </head>
-  <body>
+  <body data-theme="light">
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+      <span class="theme-icon fa7-solid--sun"></span>
+    </button>
+
     <div class="container">
       <div class="card">
         <div class="row">
@@ -53,5 +57,7 @@
         </div>
       </div>
     </div>
+
+    <script src="./script.js"></script>
   </body>
 </html>
